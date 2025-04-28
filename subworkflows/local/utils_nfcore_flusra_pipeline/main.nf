@@ -9,7 +9,7 @@
 */
 
 include { FETCH_SRA_METADATA        } from '../../../modules/local/fetch_sra_metadata'
-
+include { GROUP_FASTA             } from '../../../modules/local/group_fasta'
 /*
 ========================================================================================
     SUBWORKFLOW TO INITIALISE PIPELINE
@@ -51,6 +51,23 @@ workflow PIPELINE_INITIALISATION {
     SUBWORKFLOW FOR PIPELINE COMPLETION
 ========================================================================================
 */
+
+workflow COMBINE_SAMPLE_CONSENSUS {
+    take:
+    samples_to_process
+
+    main:
+    samples_to_process.groupTuple(
+            size: 8,
+            remainder: false,
+        ).set { grouped_fasta }
+    GROUP_FASTA(
+        grouped_fasta
+    )
+
+    emit:
+    grouped_fasta = GROUP_FASTA.out.fasta
+}
 
 workflow PIPELINE_COMPLETION {
     main:

@@ -4,7 +4,7 @@ process GENOFLU {
     conda "${moduleDir}/environment.yml"
 
     input:
-    path merged_fasta
+    tuple val(meta), path(merged_fasta)
 
     output:
     path "*_stats.tsv", emit: genoflu_results

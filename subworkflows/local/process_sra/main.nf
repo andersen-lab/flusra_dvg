@@ -4,6 +4,7 @@ include { IVAR_VARIANTS } from '../../../modules/nf-core/ivar/variants/main'
 include { SAMTOOLS_DEPTH } from '../../../modules/nf-core/samtools/depth/main'
 include { GENOFLU } from '../../../modules/local/genoflu/main'
 include { MERGE_GENOFLU_RESULTS } from '../../../modules/local/merge_genoflu_results/main'
+include { COMBINE_SAMPLE_CONSENSUS } from '../../../subworkflows/local/utils_nfcore_flusra_pipeline'
 
 workflow PROCESS_SRA {
     take:
@@ -13,8 +14,7 @@ workflow PROCESS_SRA {
     BWA_MEM(sra_samples_ch, params.reference)
 
     // Generate a tuple of genes from the reference fasta file
-    Channel
-        .from(readFastaHeaders(params.reference))
+    Channel.from(readFastaHeaders(params.reference))
         .set { genes_ch }
 
     IVAR_CONSENSUS(
@@ -25,12 +25,11 @@ workflow PROCESS_SRA {
         params.consensus_min_depth,
     )
 
-    IVAR_CONSENSUS.out.consensus
-        .map { meta, consensus_file -> [meta.id, consensus_file] }
-        .collectFile { id, file -> ["${id}.fa", file] }
-        .set { consensus_for_genoflu_ch }
+    COMBINE_SAMPLE_CONSENSUS(
+        IVAR_CONSENSUS.out.consensus
+    )
 
-    GENOFLU(consensus_for_genoflu_ch)
+    GENOFLU(COMBINE_SAMPLE_CONSENSUS.out.grouped_fasta)
 
     MERGE_GENOFLU_RESULTS(
         GENOFLU.out.genoflu_results.collect(),

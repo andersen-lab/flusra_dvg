@@ -30,9 +30,9 @@ process FASTP {
             -O trimmed_${meta.id}_2.fastq
 
         cat <<-END_VERSIONS > versions.yml
-            "${task.process}":
-                fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
-            END_VERSIONS
+        "${task.process}":
+            fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
+        END_VERSIONS
         """
     }
     else if (reads[1] == null) {
@@ -44,9 +44,9 @@ process FASTP {
             -o trimmed_${meta.id}.fastq
 
         cat <<-END_VERSIONS > versions.yml
-            "${task.process}":
-                fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
-            END_VERSIONS
+        "${task.process}":
+            fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
+        END_VERSIONS
         """
     }
     else {
@@ -61,8 +61,8 @@ process FASTP {
     touch trimmed_${meta.id}_2.fastq
 
     cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
-            fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
-        END_VERSIONS
+    "${task.process}":
+        fastp: \$(fastp --version 2>&1 | sed -e "s/fastp //g")
+    END_VERSIONS
     """
 }

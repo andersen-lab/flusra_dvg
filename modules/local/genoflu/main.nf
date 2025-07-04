@@ -16,7 +16,7 @@ process GENOFLU {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        genoflu: \$(genoflu.py --version 2>&1)
+        genoflu: \$(genoflu.py --version 2>&1 | sed -E 's/.*: //')
         python: \$(python3 --version | sed 's/Python //g')
     END_VERSIONS
     """
@@ -27,7 +27,7 @@ process GENOFLU {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        genoflu: \$(genoflu.py --version 2>&1)
+        genoflu: \$(genoflu.py --version 2>&1 | sed -E 's/.*: //')
         python: \$(python3 --version | sed 's/Python //g')
     END_VERSIONS
     """

@@ -21,7 +21,6 @@ process MERGE_GENOFLU_RESULTS {
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        genoflu: \$(genoflu.py --version 2>&1 || echo "NA")
         python: \$(python --version | sed 's/Python //g')
     END_VERSIONS
     """
@@ -32,7 +31,6 @@ process MERGE_GENOFLU_RESULTS {
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        genoflu: \$(genoflu.py --version 2>&1 || echo "NA")
         python: \$(python --version | sed 's/Python //g')
     END_VERSIONS
     """

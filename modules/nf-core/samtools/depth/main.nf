@@ -1,5 +1,5 @@
 process SAMTOOLS_DEPTH {
-    tag "$meta.id - $referenceGene"
+    tag "${meta.id} - ${referenceGene}"
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
@@ -10,21 +10,21 @@ process SAMTOOLS_DEPTH {
     path reference
 
     output:
-    path "*_depth.tsv"        , emit: tsv
-    path "versions.yml" , emit: versions
+    path "*_depth.tsv", emit: tsv
+    path "versions.yml", emit: versions
 
     script:
     def gene = referenceGene.split("\\|")[0]
     """
-    samtools index $bamFile
+    samtools index ${bamFile}
 
     samtools \\
         depth \\
-        --reference $reference \\
-        -r \"$referenceGene\" \\
+        --reference ${reference} \\
+        -r \"${referenceGene}\" \\
         --threads ${task.cpus} \\
         -aa \\
-        $bamFile \\
+        ${bamFile} \\
         > ${meta.id}_${gene}_depth.tsv
 
     cat <<-END_VERSIONS > versions.yml
@@ -34,6 +34,7 @@ process SAMTOOLS_DEPTH {
     """
 
     stub:
+    def gene = referenceGene.split("\\|")[0]
     """
     touch ${meta.id}_${gene}_depth.tsv
 

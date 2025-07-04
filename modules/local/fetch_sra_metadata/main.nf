@@ -14,6 +14,7 @@ process FETCH_SRA_METADATA {
     output:
     path "*_updated.csv", optional: true
     path "*_to_process.tsv", optional: true, emit: new_samples
+    path "versions.yml", emit: versions
 
     script:
     def trim_config = trimming_config.name != "NO_FILE" ? "--trimming_config ${trimming_config}" : ""

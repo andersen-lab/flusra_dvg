@@ -1,5 +1,5 @@
 process BWA_MEM {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_medium'
 
     conda "${moduleDir}/environment.yml"
@@ -9,17 +9,17 @@ process BWA_MEM {
     path reference
 
     output:
-    tuple val(meta), path("*.bam") , emit: bam
-    path  "versions.yml"           , emit: versions
+    tuple val(meta), path("*.bam"), emit: bam
+    path "versions.yml", emit: versions
 
     script:
     """
-    bwa index -p "reference" $reference
+    bwa index -p "reference" ${reference}
 
     bwa mem \\
-        -t $task.cpus \\
-        -P "reference" \\
-        $reads \\
+        -t ${task.cpus} \\
+        "reference" \\
+        ${reads} \\
         | samtools view \\
             -F 4 -b \\
             | samtools sort \\

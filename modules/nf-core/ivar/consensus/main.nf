@@ -20,7 +20,7 @@ process IVAR_CONSENSUS {
     """
     samtools index ${bamFile}
 
-    samtools mpileup -r \"${referenceGene}\" -A -d 0 -aa -Q 0 ${bamFile} | ivar consensus -p ${meta.id}_${gene}_cns -t ${consensus_threshold} -m ${consensus_min_depth}
+    samtools mpileup -r \"${referenceGene}\" -A -B -d 0 -aa -Q 0 ${bamFile} | ivar consensus -p ${meta.id}_${gene}_cns -t ${consensus_threshold} -m ${consensus_min_depth}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

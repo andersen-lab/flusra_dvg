@@ -8,9 +8,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { FREYJA_VARIANTS         } from '../../../modules/nf-core/freyja/variants'
-include { FREYJA_DEMIX            } from '../../../modules/nf-core/freyja/demix'
-include { MINIMAP2_ALIGN          } from '../../../modules/nf-core/minimap2/align'
+include { FREYJA_VARIANTS } from '../../../modules/nf-core/freyja/variants'
+include { FREYJA_DEMIX } from '../../../modules/nf-core/freyja/demix'
+include { MINIMAP2_ALIGN } from '../../../modules/nf-core/minimap2/align'
 
 
 // Checks whether the provided depth file contains any depth values greater than zero.
@@ -38,6 +38,6 @@ workflow MILK_FREYJA {
         params.milk_barcode,
         params.demix_autoadapt,
         params.demix_depthcutoff,
-        params.demix_lineage_hierarchy
+        params.demix_lineage_hierarchy,
     )
 }

@@ -1,5 +1,5 @@
 process FREYJA_DEMIX {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_high', 'process_low_memory'
 
     conda "${moduleDir}/environment.yml"
@@ -12,21 +12,21 @@ process FREYJA_DEMIX {
     path demix_lineage_hierarchy
 
     output:
-    path "*.demixed",     emit: demixed
-    path  "versions.yml", emit: versions
+    path "*.demixed", emit: demixed
+    path "versions.yml", emit: versions
 
     script:
     def autoadapt = demix_autoadapt ? "--autoadapt" : ""
-    def depth_cutoff = demix_depthcutoff ? "--depthcutoff $demix_depthcutoff" : ""
+    def depth_cutoff = demix_depthcutoff ? "--depthcutoff ${demix_depthcutoff}" : ""
     def lineage_hierarchy = demix_lineage_hierarchy.name != "NO_FILE" ? "--lineageyml ${demix_lineage_hierarchy}" : ""
     """
     freyja demix \\
-        $variant \\
-        $depth \\
-        $autoadapt \\
-        $lineage_hierarchy \\
-        $depth_cutoff \\
-        --barcodes $barcode \\
+        ${variant} \\
+        ${depth} \\
+        ${autoadapt} \\
+        ${lineage_hierarchy} \\
+        ${depth_cutoff} \\
+        --barcodes ${barcode} \\
         --output ${meta.id}.demixed
 
 

@@ -1,5 +1,5 @@
 process MINIMAP2_ALIGN {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_medium'
 
     conda "${moduleDir}/environment.yml"
@@ -9,16 +9,16 @@ process MINIMAP2_ALIGN {
     path reference
 
     output:
-    tuple val(meta), path("*.bam") , emit: bam
-    path  "versions.yml"           , emit: versions
+    tuple val(meta), path("*.bam"), emit: bam
+    path "versions.yml", emit: versions
 
     script:
     """
     minimap2 \\
         -ax sr \\
-        -t $task.cpus \\
-        $reference \\
-        $reads \\
+        -t ${task.cpus} \\
+        ${reference} \\
+        ${reads} \\
         | samtools view \\
             -bS \\
             | samtools sort \\

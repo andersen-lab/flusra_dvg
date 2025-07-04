@@ -1,5 +1,5 @@
 process SRATOOLS_FASTERQDUMP {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
@@ -10,16 +10,16 @@ process SRATOOLS_FASTERQDUMP {
     output:
     tuple val(meta), path('*.fastq'), emit: reads
     path "*.fastq.gz"
-    path "versions.yml"            , emit: versions
+    path "versions.yml", emit: versions
 
     script:
     """
     fasterq-dump \\
-        --threads $task.cpus \\
+        --threads ${task.cpus} \\
         ${sra}
 
     pigz \\
-        -p $task.cpus \\
+        -p ${task.cpus} \\
         -k \\
         *.fastq
 

@@ -5,6 +5,7 @@ include { SAMTOOLS_DEPTH } from '../../../modules/nf-core/samtools/depth/main'
 include { GENOFLU } from '../../../modules/local/genoflu/main'
 include { MERGE_GENOFLU_RESULTS } from '../../../modules/local/merge_genoflu_results/main'
 include { COMBINE_SAMPLE_CONSENSUS } from '../../../subworkflows/local/utils_nfcore_flusra_pipeline'
+include { DVG } from '../dvg/main.nf'
 
 workflow PROCESS_SRA {
     take:
@@ -61,6 +62,17 @@ workflow PROCESS_SRA {
         params.variant_threshold,
         params.variant_min_depth,
     )
+
+    // combine with sra_samples_ch with COMBINE_SAMPLE_CONSENSUS.out.grouped_fasta
+    sra_samples_ch
+        .concat(COMBINE_SAMPLE_CONSENSUS.out.grouped_fasta)
+        .groupTuple(
+            size: 2
+        )
+        .set { ch_combined_samples }
+
+    emit:
+    ch_combined_samples = ch_combined_samples
 }
 
 def readFastaHeaders(fastaFile) {

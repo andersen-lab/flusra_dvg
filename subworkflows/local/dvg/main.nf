@@ -1,7 +1,4 @@
 include { VIREMA } from '../../../modules/local/virema/main.nf'
-include { COMBINE_UNSTRANDED_ANNOTATIONS } from '../../../modules/local/combine_unstranded_annotations/main.nf'
-include { BEDTOOLS_GENOME_COVERAGE_BED } from '../../../modules/nf-core/bedtools/genomeCoverageBed/main.nf'
-include { DVG_FREQ_CALC } from '../../../modules/local/dvg_freq_calc/main.nf'
 
 workflow DVG {
     take:

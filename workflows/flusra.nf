@@ -82,6 +82,8 @@ workflow FLUSRA {
             PROCESS_SRA.out.ch_combined_samples
         )
 
+        ch_versions = ch_versions.mix(DVG.out.versions)
+
         sample_reads_input.milk.filter { it
             != null }
             | MILK_FREYJA

@@ -5,6 +5,9 @@ workflow DVG {
     samples_ch
 
     main:
+
+    ch_versions = Channel.empty()
+
     // samples_ch = [meta, [[fastqs], fasta]]
     // convert to a tuple of [meta, fastqs, fasta]
     samples_ch
@@ -32,4 +35,11 @@ workflow DVG {
     VIREMA(
         virema_input_ch
     )
+
+    ch_versions = ch_versions.mix(
+        VIREMA.out.versions,
+    )
+
+    emit:
+    versions = ch_versions
 }

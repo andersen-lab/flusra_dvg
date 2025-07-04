@@ -1,5 +1,5 @@
 process VIREMA {
-    label 'process_high'
+    label 'process_medium', 'process_high_memory'
 
     conda "${moduleDir}/environment.yml"
 
@@ -10,7 +10,7 @@ process VIREMA {
     tuple val(meta), path("virema_outputs/BED_Files/*_Virus_Recombination_Results.bed"), emit: recombinationBedFiles
     tuple val(meta), path("virema_outputs/*.bam"), emit: bamFiles
     tuple val(meta), path("virema_outputs/*.sam"), emit: samFiles
-    path("virema_outputs/*.coverage-stats.txt")
+    path "virema_outputs/*.coverage-stats.txt"
     path "versions.yml", emit: versions
 
     script:
@@ -51,6 +51,7 @@ process VIREMA {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python3 --version | sed 's/Python //g')
+        ViReMa: \$(git -C ViReMa/ViReMa_0.32 rev-parse HEAD)
     END_VERSIONS
     """
 }

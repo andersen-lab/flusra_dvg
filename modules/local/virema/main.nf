@@ -1,5 +1,6 @@
 process VIREMA {
     label 'process_medium', 'process_high_memory'
+    errorStrategy 'ignore'
 
     conda "${moduleDir}/environment.yml"
 

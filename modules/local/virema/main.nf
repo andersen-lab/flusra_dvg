@@ -1,4 +1,5 @@
 process VIREMA {
+    tag "${meta.id}"
     label 'process_medium', 'process_high_memory'
     errorStrategy 'ignore'
 

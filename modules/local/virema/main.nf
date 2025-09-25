@@ -12,7 +12,7 @@ process VIREMA {
     tuple val(meta), path("virema_outputs/BED_Files/*_Virus_Recombination_Results.bed"), emit: recombinationBedFiles
     tuple val(meta), path("virema_outputs/*.bam"), emit: bamFiles
     tuple val(meta), path("virema_outputs/*.sam"), emit: samFiles
-    path "virema_outputs/*.coverage-stats.txt"
+    path "virema_outputs/*"
     path "versions.yml", emit: versions
 
     script:

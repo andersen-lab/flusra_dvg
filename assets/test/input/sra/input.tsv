@@ -1,7 +1,0 @@
-Run	process_flag	is_milk	global_trimming
-SRR29377832	True	False	
-SRR30789620	True	True	
-SRR29182471	True	True
-SRR29182472	False	True
-SRR31486243	True	True	{'front1': 30, 'tail1': 0, 'front2': 30, 'tail2': 0}
-SRR31094751	True	True	{'front1': 30, 'tail1': 0, 'front2': 30, 'tail2': 0}

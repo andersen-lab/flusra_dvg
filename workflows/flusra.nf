@@ -3,6 +3,7 @@ include { FASTP } from '../modules/nf-core/fastp/main'
 include { SRATOOLS_FASTERQDUMP } from '../modules/nf-core/sratools/fasterqdump/main'
 include { SRATOOLS_PREFETCH } from '../modules/nf-core/sratools/prefetch/main'
 include { MILK_FREYJA } from '../subworkflows/local/milk_freyja/main'
+include { DVG } from '../subworkflows/local/dvg/main'
 
 workflow FLUSRA {
     take:
@@ -74,12 +75,21 @@ workflow FLUSRA {
         sample_reads_input.samples.filter { it
             != null }
             | PROCESS_SRA
+
         ch_versions = ch_versions.mix(PROCESS_SRA.out.versions)
+
+        DVG(
+            PROCESS_SRA.out.ch_combined_samples
+        )
+
+        ch_versions = ch_versions.mix(DVG.out.versions)
 
         sample_reads_input.milk.filter { it
             != null }
             | MILK_FREYJA
+
         ch_versions = ch_versions.mix(MILK_FREYJA.out.versions)
+
     }
 
     emit:

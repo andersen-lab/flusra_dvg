@@ -1,0 +1,45 @@
+include { VIREMA } from '../../../modules/local/virema/main.nf'
+
+workflow DVG {
+    take:
+    samples_ch
+
+    main:
+
+    ch_versions = Channel.empty()
+
+    // samples_ch = [meta, [[fastqs], fasta]]
+    // convert to a tuple of [meta, fastqs, fasta]
+    samples_ch
+        .map { meta, files ->
+            def fastqs = files[0]
+            def fasta = files[1]
+            [meta, fastqs, fasta]
+        }
+        .branch {
+            single: it[1] instanceof Path
+            paired: it[1] instanceof List
+        }
+        .set { branched_samples_ch }
+
+
+    // TODO: Add support for single-end reads
+    // single_end_ch = branched_samples_ch.single.map { meta, fastq, fasta -> [meta, fastq, fasta] }
+
+    paired_end_ch = branched_samples_ch.paired.flatMap { meta, fastqs, fasta ->
+        fastqs.collect { fastq -> [meta, fastq, fasta] }
+    }
+
+    virema_input_ch = paired_end_ch
+
+    VIREMA(
+        virema_input_ch
+    )
+
+    ch_versions = ch_versions.mix(
+        VIREMA.out.versions,
+    )
+
+    emit:
+    versions = ch_versions
+}
